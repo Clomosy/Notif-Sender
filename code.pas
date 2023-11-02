@@ -1,0 +1,85 @@
+var
+ MyForm:TCLForm;
+ xWeb:TclWebBrowser;
+ ustBar:TCLProEdit; 
+ mainPnl:TclProPanel;
+ titleLyt,
+ memoLyt,
+ BtnGrpLyt:TClLayout;
+ titleLbl:TClProLabel;
+ noteMemo : TclMemo;
+ notifyAllBtn:TClProButton;
+ Procedure notifyAllBtnOnClick;
+ begin
+  Clomosy.SendNotifyAllUsers('Clomosy Seminer',noteMemo.Text,'');
+ end;
+ procedure UserFormLyt;
+ begin
+   ustBar := MyForm.AddNewProEdit(MyForm,'ustBar','https://www.instagram.com/clomosy.turkiye/');
+   clComponent.SetupComponent(ustBar,'{"Align" : "Top","Width" :180, "Height":45,"RoundHeight":10,"RoundWidth":10,"BorderColor":"#000000",
+   "BorderWidth":2}');
+   ustBar.Text := 'https://www.instagram.com/clomosy.turkiye/';
+   ustBar.ReadOnly := True;
+   xWeb:= MyForm.AddNewWebBrowser(MyForm,'xWeb');  
+   xWeb.Align := alClient;
+   xWeb.Navigate('https://www.instagram.com/clomosy.turkiye/');
+ end;
+ procedure AdminFormLyt;
+ begin
+    mainPnl := MyForm.AddNewProPanel(MyForm,'mainPnl');
+    clComponent.SetupComponent(mainPnl,'{"Align" : "Center","BackgroundColor":"null"}');
+    mainPnl.Width := TForm(MyForm).ClientWidth-100;
+    mainPnl.Height := TForm(MyForm).ClientHeight-100;
+    
+    titleLyt := MyForm.AddNewLayout(mainPnl,'titleLyt');
+    titleLyt.Align := alMostTop;
+    titleLyt.Width := 100; 
+    titleLyt.Height := 50;
+    
+    titleLbl := MyForm.AddNewProLabel(titleLyt,'titleLbl','Clomosy Notif Sender');
+    clComponent.SetupComponent(titleLbl,'{"Align" : "Center",
+    "Width" :250,
+    "Height":30,
+    "TextColor":"#ffffff",
+    "TextSize":25,
+    "TextVerticalAlign":"center",
+    "TextHorizontalAlign":"center",
+    "TextBold":"yes"}');
+    
+    memoLyt := MyForm.AddNewLayout(mainPnl,'memoLyt');
+    memoLyt.Align := alMostTop;
+    memoLyt.Width := 100; 
+    memoLyt.Height := 200;
+    
+    
+    noteMemo := MyForm.AddNewMemo(memoLyt,'noteMemo','Clomosy Eğitim Seminerine katıldığınız için teşekkür ederiz. Duyurularımızdan haberdar olmak için bizi sosyal medya sayfalarımızdan takip edebilirsiniz.');
+    noteMemo.StyledSettings := ssFamily;
+    noteMemo.Align:=alClient;
+    noteMemo.TextSettings.WordWrap := True;
+    
+    BtnGrpLyt := MyForm.AddNewLayout(mainPnl,'BtnGrpLyt');
+    BtnGrpLyt.Align := alTop;
+    BtnGrpLyt.Width := 100; 
+    BtnGrpLyt.Height := 50;
+    
+    notifyAllBtn := MyForm.AddNewProButton(BtnGrpLyt,'notifyAllBtn','');
+    clComponent.SetupComponent(notifyAllBtn,'{"caption":"Bildirim Gönder","Align" : "Top","MarginTop":20,"Width" :150, 
+  "Height":70,"RoundHeight":8,
+  "TextColor":"#00b282",
+  "TextSize":17,
+   "RoundWidth":8,"BorderColor":"#00b282","BorderWidth":2}');
+   MyForm.AddNewEvent(notifyAllBtn,tbeOnClick,'notifyAllBtnOnClick');
+    
+  
+    
+ end;
+ 
+begin
+  MyForm := TCLForm.Create(Self);
+  MyForm.SetFormBGImage('https://clomosy.com/theme/SurveyStyle5.png');
+  if Clomosy.AppUserProfile <> 1 then
+    UserFormLyt
+  else
+    AdminFormLyt;
+  MyForm.Run;
+end;
