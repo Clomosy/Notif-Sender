@@ -9,7 +9,7 @@ var
  titleLbl:TClProLabel;
  noteMemo : TclMemo;
  notifyAllBtn:TClProButton;
- Procedure notifyAllBtnOnClick;
+ procedure notifyAllBtnOnClick;
  begin
   Clomosy.SendNotifyAllUsers('Clomosy Seminer',noteMemo.Text,'');
  end;
@@ -81,5 +81,8 @@ begin
     UserFormLyt
   else
     AdminFormLyt;
+  if Clomosy.PlatformIsMobile then
   MyForm.Run;
+  else
+  MyForm.RunModal;
 end;

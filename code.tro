@@ -81,5 +81,8 @@ var
     UserFormLyt
   else
     AdminFormLyt;
+  if(Clomosy.PlatformIsMobile) 
   MyForm.Run;
+  else
+  MyForm.RunModal;
 }
